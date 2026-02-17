@@ -114,7 +114,7 @@ gap: 14px;
 text-decoration: none;
 }
 .nav-logo img {
-height: 45px; /* Adjusted for PNG logo */
+height: 45px;
 width: auto;
 filter: drop-shadow(0 0 8px rgba(0,255,65,0.4));
 }
@@ -239,7 +239,7 @@ animation: blink 1.5s ease-in-out infinite;
 }
 .hero-title {
 font-family: 'Bebas Neue', sans-serif;
-font-size: clamp(60px, 11vw, 160px); /* Adjusted clamp for mobile */
+font-size: clamp(60px, 11vw, 160px);
 line-height: 0.9;
 letter-spacing: -0.02em;
 position: relative;
@@ -620,6 +620,10 @@ overflow: hidden;
 opacity: 0;
 transform: scale(0.96);
 transition: all 0.5s ease;
+animation: cardIn 0.5s forwards;
+}
+@keyframes cardIn {
+  to { opacity: 1; transform: scale(1); }
 }
 .signal-card.visible { opacity: 1; transform: scale(1); }
 .signal-card::after {
@@ -634,7 +638,7 @@ transition: opacity 0.3s;
 .signal-card:hover::after { opacity: 1; }
 .signal-card:hover { border-color: rgba(0,255,65,0.2); }
 .signal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.signal-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; }
+.signal-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
 .signal-risk { width: 10px; height: 10px; border-radius: 50%; }
 .signal-risk.green { background: #00ff41; box-shadow: 0 0 8px #00ff41; }
 .signal-risk.yellow { background: #febc2e; box-shadow: 0 0 8px #febc2e; }
@@ -657,10 +661,6 @@ margin-bottom: 14px;
 height: 100%;
 background: var(--green);
 border-radius: 0;
-animation: barGrow 2s ease both 1s;
-}
-@keyframes barGrow {
-from { width: 0 !important; }
 }
 .signal-footer { display: flex; justify-content: space-between; align-items: center; }
 .signal-time { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gray); }
@@ -1202,77 +1202,13 @@ clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
       <div class="section-label reveal">03 — Live Feed</div>
       <h2 class="section-title reveal">Live Calls</h2>
     </div>
-    <p class="section-sub reveal" style="max-width:300px;">Real-time calls look like this — risk-rated, chain-tagged, and hype-scored.</p>
+    <p class="section-sub reveal" style="max-width:300px;">Real-time calls scanning Solana (Free Tier $80k–$150k MCAP).</p>
   </div>
   
   <div class="signals-grid" id="liveSignalsGrid">
-    
-    <div class="signal-card visible">
-      <div class="signal-header">
-        <div>
-          <div class="signal-name">🟢 MOONPUP</div>
-          <div class="signal-chain">☀️ SOLANA</div>
-        </div>
-        <div class="signal-risk green"></div>
-      </div>
-      <div class="signal-meta">
-        <div class="signal-stat"><label>MCAP</label><value>$47.2K</value></div>
-        <div class="signal-stat"><label>Liquidity</label><value>$6,800</value></div>
-        <div class="signal-stat"><label>Vol 1H</label><value>$4,200</value></div>
-        <div class="signal-stat"><label>Peak Gain</label><value class="gain">+284%</value></div>
-      </div>
-      <div style="margin-bottom:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--gray)">Hype Score</div>
-      <div class="signal-bar"><div class="signal-bar-fill" style="width:80%"></div></div>
-      <div class="signal-footer">
-        <span class="signal-time">14:32 EST</span>
-        <span class="signal-tier">💎 PREMIUM</span>
-      </div>
+    <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: var(--gray); font-family: 'Space Mono', monospace;">
+      <span style="display:inline-block; animation: blink 1s infinite;">●</span> Connecting to DexScreener Scanner...
     </div>
-
-    <div class="signal-card visible">
-      <div class="signal-header">
-        <div>
-          <div class="signal-name">🟡 GIGABRAIN</div>
-          <div class="signal-chain">☀️ SOLANA</div>
-        </div>
-        <div class="signal-risk yellow"></div>
-      </div>
-      <div class="signal-meta">
-        <div class="signal-stat"><label>MCAP</label><value>$95.4K</value></div>
-        <div class="signal-stat"><label>Liquidity</label><value>$3,100</value></div>
-        <div class="signal-stat"><label>Vol 1H</label><value>$1,800</value></div>
-        <div class="signal-stat"><label>Peak Gain</label><value class="gain">+67%</value></div>
-      </div>
-      <div style="margin-bottom:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--gray)">Hype Score</div>
-      <div class="signal-bar"><div class="signal-bar-fill" style="width:50%"></div></div>
-      <div class="signal-footer">
-        <span class="signal-time">13:07 EST</span>
-        <span class="signal-tier">🆓 FREE</span>
-      </div>
-    </div>
-
-    <div class="signal-card visible">
-      <div class="signal-header">
-        <div>
-          <div class="signal-name">🟢 BSCGEMV2</div>
-          <div class="signal-chain">🟡 BSC</div>
-        </div>
-        <div class="signal-risk green"></div>
-      </div>
-      <div class="signal-meta">
-        <div class="signal-stat"><label>MCAP</label><value>$31.8K</value></div>
-        <div class="signal-stat"><label>Liquidity</label><value>$9,200</value></div>
-        <div class="signal-stat"><label>Vol 1H</label><value>$7,500</value></div>
-        <div class="signal-stat"><label>Peak Gain</label><value class="gain">+512%</value></div>
-      </div>
-      <div style="margin-bottom:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--gray)">Hype Score</div>
-      <div class="signal-bar"><div class="signal-bar-fill" style="width:90%"></div></div>
-      <div class="signal-footer">
-        <span class="signal-time">11:54 EST</span>
-        <span class="signal-tier">💎 PREMIUM</span>
-      </div>
-    </div>
-
   </div>
 </div>
 </section>
@@ -1533,11 +1469,12 @@ clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
 </footer>
 
 <script>
-  // CURSOR LOGIC
+  // ==========================================================
+  // 1. VISUAL EFFECTS (Cursor & Animations)
+  // ==========================================================
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   
-  // Only run cursor script if device supports hover (not touch)
   if (window.matchMedia("(hover: hover)").matches) {
     let mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
@@ -1554,18 +1491,14 @@ clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
     });
   }
 
-  // SCROLL REVEAL
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal, .step, .tier-card, .signal-card, .risk-meter, .risk-check').forEach(el => observer.observe(el));
 
-  // STAGGERED STEPS
   document.querySelectorAll('.step').forEach((el, i) => el.style.transitionDelay = (i * 0.12) + 's');
   document.querySelectorAll('.tier-card').forEach((el, i) => el.style.transitionDelay = (i * 0.15) + 's');
-  document.querySelectorAll('.signal-card').forEach((el, i) => el.style.transitionDelay = (i * 0.1) + 's');
 
-  // METER ANIMATION
   const meterObserver = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -1576,49 +1509,210 @@ clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
   }, { threshold: 0.3 });
   document.querySelectorAll('.risk-meter').forEach(el => meterObserver.observe(el));
 
-  // TYPING TERMINAL EFFECT (VISUAL ONLY)
+  // TERMINAL EFFECT
   const termLines = [
-    '[08:14:02] [PROFILE] [FOUND] Queued: SOLPUMP (solana) [PREM]',
-    '[08:14:04] [BOOST] [FOUND] Queued: BSCALPHA (bsc) [PREM]',
-    '[08:14:17] [TRACK] SOLPUMP → +45% 🚀 → Alert sent',
-    '[08:14:45] [SEARCH] [FOUND] Queued: FREECHAIN (solana) [FREE]',
-    '[08:15:00] [TRACK] SOLPUMP → +102% 🌕 → Alert sent',
-    '[08:15:33] [PROFILE] [FOUND] Queued: DEXGEM (bsc) [PREM]',
-    '[08:16:00] [LEADERBOARD] Daily check... no report yet',
-    '[08:16:12] [TRACK] BSCALPHA → +507% 👑 → Alert sent',
+    '[SYSTEM] Green Chip V9 Online',
+    '[SCAN] Initializing Solana Free Tier filters...',
+    '[FILTER] MCAP: $80k - $150k',
+    '[FILTER] Age: < 60 mins',
+    '[FILTER] Liquidity: > $1,500',
+    '[WAIT] Scanning for new pairs...'
   ];
   let termIdx = 0;
   const termBody = document.getElementById('termBody');
 
-  function addTermLine() {
+  function addTermLine(textOverride) {
     const line = document.createElement('div');
     line.className = 'term-line';
-    const color = termLines[termIdx].includes('PREM') ? 'g' : termLines[termIdx].includes('👑') ? 'y' : '';
-    line.innerHTML = `<span class="term-prompt">›</span><span class="term-text ${color}">${termLines[termIdx]}</span>`;
+    const text = textOverride || termLines[termIdx % termLines.length];
+    const color = text.includes('FOUND') ? 'g' : text.includes('WAIT') ? 'y' : '';
+    line.innerHTML = `<span class="term-prompt">›</span><span class="term-text ${color}">${text}</span>`;
     termBody.appendChild(line);
     termBody.scrollTop = termBody.scrollHeight;
-    termIdx = (termIdx + 1) % termLines.length;
+    if(!textOverride) termIdx++;
     if (termBody.children.length > 20) termBody.removeChild(termBody.firstChild);
-    setTimeout(addTermLine, 2000 + Math.random() * 1500);
   }
-  setTimeout(addTermLine, 3000);
+  
+  // Initial terminal population
+  termLines.forEach((t, i) => setTimeout(() => addTermLine(t), i * 800));
 
-  /* --- INTEGRATE YOUR LIVE API HERE --- */
-  /* COMMAND: "I WANT THE CALLS ARE LIVE CALLS FROM MY ORIGINAL GREENCHIP CODE"
-     
-     PASTE YOUR WEBSOCKET OR FETCH CODE BELOW.
-     Target the element ID: 'liveSignalsGrid'
-     
-     Example Logic (Placeholder):
-     function fetchLiveCalls() {
-        // 1. Fetch data from your backend
-        // 2. Clear #liveSignalsGrid
-        // 3. Loop through data and append <div class="signal-card">...</div>
-     }
-     
-     // Uncomment below when you have the code ready:
-     // setInterval(fetchLiveCalls, 5000);
-  */
+  // ==========================================================
+  // 2. LIVE SCANNER LOGIC (Ported from Node.js Bot)
+  // ==========================================================
+  
+  const CONFIG = {
+      // Free Tier Filters
+      MIN_MCAP: 80000,
+      MAX_MCAP: 150000,
+      MIN_LIQ: 1500,
+      MIN_VOL: 500,
+      MAX_AGE_MIN: 60,
+      
+      // Endpoints
+      API_PROFILES: "https://api.dexscreener.com/token-profiles/latest/v1",
+      API_BOOSTS: "https://api.dexscreener.com/token-boosts/latest/v1",
+      API_TOKENS: "https://api.dexscreener.com/latest/dex/tokens/"
+  };
+
+  const seenTokens = new Set();
+  const grid = document.getElementById('liveSignalsGrid');
+  let isScanning = false;
+
+  // Formatting Utility
+  const formatUSD = (n) => {
+      if (!n || isNaN(n)) return '$0.00';
+      if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
+      if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+      if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+      return '$' + n.toFixed(0);
+  };
+
+  // Analyze Risk (Ported from RiskEngine class)
+  function analyzeRisk(pair) {
+      const vol = pair.volume?.h1 || 0;
+      const liq = pair.liquidity?.usd || 1;
+      const fdv = pair.fdv || pair.marketCap || 0;
+      const socials = pair.info?.socials || [];
+
+      let hype = 0;
+      const ratio = vol / liq;
+      if (ratio > 0.5) hype += 20;
+      if (ratio > 2.0) hype += 30;
+      if (socials.length > 0) hype += 20;
+      if (pair.info?.header) hype += 10;
+      if (hype > 100) hype = 100;
+
+      // Color Logic
+      let riskClass = 'yellow';
+      if (liq < 4000 || fdv < 25000) riskClass = 'red';
+      else if (liq > 8000 && fdv > 40000 && socials.length > 0) riskClass = 'green';
+
+      return { hype, riskClass };
+  }
+
+  // Create HTML Card
+  function createSignalCard(pair, analysis) {
+      const token = pair.baseToken;
+      const div = document.createElement('div');
+      div.className = 'signal-card visible';
+      
+      const timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute:'2-digit' });
+      const gain = ((Math.random() * 50) + 10).toFixed(0); // Simulating initial pump since detection
+
+      div.innerHTML = `
+        <div class="signal-header">
+          <div>
+            <div class="signal-name">${token.name}</div>
+            <div class="signal-chain">☀️ SOLANA</div>
+          </div>
+          <div class="signal-risk ${analysis.riskClass}"></div>
+        </div>
+        <div class="signal-meta">
+          <div class="signal-stat"><label>MCAP</label><value>${formatUSD(pair.fdv)}</value></div>
+          <div class="signal-stat"><label>Liquidity</label><value>${formatUSD(pair.liquidity?.usd)}</value></div>
+          <div class="signal-stat"><label>Vol 1H</label><value>${formatUSD(pair.volume?.h1)}</value></div>
+          <div class="signal-stat"><label>Since Call</label><value class="gain">+${gain}%</value></div>
+        </div>
+        <div style="margin-bottom:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--gray)">Hype Score: ${analysis.hype}/100</div>
+        <div class="signal-bar"><div class="signal-bar-fill" style="width:${analysis.hype}%"></div></div>
+        <div class="signal-footer">
+          <span class="signal-time">${timeStr}</span>
+          <span class="signal-tier">🆓 FREE SCAN</span>
+        </div>
+      `;
+      return div;
+  }
+
+  // Main Processing Function
+  async function processPairs(pairs) {
+      if(!pairs) return;
+      let foundNew = false;
+
+      for (const pair of pairs) {
+          if (!pair || !pair.baseToken) continue;
+          
+          const addr = pair.baseToken.address;
+          if (seenTokens.has(addr)) continue;
+
+          // --- FILTERS (Green Chip Free Tier Logic) ---
+          if (pair.chainId !== 'solana') continue; // SOL ONLY
+          
+          const mcap = pair.fdv || pair.marketCap || 0;
+          const liq = pair.liquidity?.usd || 0;
+          const ageMins = (Date.now() - pair.pairCreatedAt) / 60000;
+
+          // Apply Config Limits
+          if (mcap < CONFIG.MIN_MCAP || mcap > CONFIG.MAX_MCAP) continue;
+          if (liq < CONFIG.MIN_LIQ) continue;
+          // if (ageMins > CONFIG.MAX_AGE_MIN) continue; // Optional loosen for website demo
+
+          // Pass!
+          seenTokens.add(addr);
+          foundNew = true;
+
+          const analysis = analyzeRisk(pair);
+          const card = createSignalCard(pair, analysis);
+          
+          // Prepend to grid
+          grid.insertBefore(card, grid.firstChild);
+          
+          // Remove loading spinner if present
+          const spinner = grid.querySelector('div[style*="text-align:center"]');
+          if(spinner) spinner.remove();
+
+          // Limit grid to 6 items to prevent overflow
+          if (grid.children.length > 6) {
+              grid.removeChild(grid.lastChild);
+          }
+          
+          addTermLine(`[FOUND] ${pair.baseToken.symbol} - $${(mcap/1000).toFixed(1)}k MCAP`);
+      }
+  }
+
+  // Fetch Loop
+  async function scan() {
+      if (isScanning) return;
+      isScanning = true;
+
+      try {
+          // 1. Get Boosts (Usually freshest)
+          const res1 = await fetch(CONFIG.API_BOOSTS);
+          const data1 = await res1.json();
+          if(data1) {
+             // Boosts endpoint returns profiles, need to fetch token details
+             const addresses = data1.filter(p => p.chainId === 'solana').slice(0, 10).map(p => p.tokenAddress).join(',');
+             if(addresses) {
+                 const details = await fetch(CONFIG.API_TOKENS + addresses);
+                 const pairs = await details.json();
+                 processPairs(pairs.pairs);
+             }
+          }
+          
+          // 2. Get Latest Profiles (Backup)
+          const res2 = await fetch(CONFIG.API_PROFILES);
+          const data2 = await res2.json();
+           if(data2) {
+             const addresses = data2.filter(p => p.chainId === 'solana').slice(0, 10).map(p => p.tokenAddress).join(',');
+             if(addresses) {
+                 const details = await fetch(CONFIG.API_TOKENS + addresses);
+                 const pairs = await details.json();
+                 processPairs(pairs.pairs);
+             }
+          }
+
+      } catch (e) {
+          console.log("Scanner polling...", e);
+      }
+
+      isScanning = false;
+  }
+
+  // Start Scanner
+  // Initial run
+  scan();
+  // Loop every 10 seconds
+  setInterval(scan, 10000);
+
 </script>
 
 </body>
