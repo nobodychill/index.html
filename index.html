@@ -42,24 +42,37 @@
         }
         .btn-glitch:hover::before { left: 100%; }
 
-        /* ROADMAP SPECIFIC STYLES */
+        /* ROADMAP SPECIFIC STYLES (Matching your Image) */
         .roadmap-line {
             position: absolute;
-            top: 50%; left: 0; width: 100%; height: 2px;
+            top: 3rem; /* Aligned with circles */
+            left: 0; width: 100%; height: 4px;
             background: linear-gradient(90deg, transparent, #00FF00, transparent);
+            box-shadow: 0 0 15px #00FF00;
             z-index: 0;
-            transform: translateY(-50%);
         }
         
-        .roadmap-node {
+        .roadmap-ring {
             background: #000;
+            border: 4px solid #00FF00;
+            box-shadow: 0 0 20px #00FF00, inset 0 0 10px #00FF00;
             z-index: 10;
             transition: all 0.3s ease;
+            position: relative;
         }
         
-        .roadmap-node:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.8);
+        .roadmap-ring::after {
+            content: '';
+            position: absolute;
+            top: -6px; left: -6px; right: -6px; bottom: -6px;
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0; }
         }
 
         /* Scrollbar */
@@ -76,7 +89,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex-shrink-0 flex items-center gap-3">
-                    <img src="logo.gif" alt="Green Chip Logo" class="h-12 w-auto object-contain">
+                    <img src="logo.png" alt="Green Chip Logo" class="h-12 w-auto object-contain">
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
@@ -97,7 +110,7 @@
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
             
             <div class="hero-anim opacity-0 translate-y-10 mb-8 flex justify-center">
-                 <img src="logo.gif" alt="Green Chip" class="h-32 md:h-48 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,255,0,0.5)]">
+                 <img src="logo.png" alt="Green Chip" class="h-32 md:h-48 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,255,0,0.5)]">
             </div>
 
             <h1 class="hero-anim opacity-0 translate-y-10 text-4xl md:text-7xl font-black mb-6 tracking-tighter">
@@ -122,12 +135,12 @@
 
     <section id="roadmap" class="py-24 bg-black border-y border-green-900/30 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-20">
-                <div class="inline-block p-2 rounded-full border border-green-500 mb-4">
-                    <i class="fa-solid fa-layer-group text-green-500 text-xl"></i>
+            <div class="text-center mb-24">
+                <div class="inline-block p-4 rounded-full border border-green-500 mb-6 shadow-[0_0_15px_#00FF00]">
+                    <span class="text-4xl font-bold text-white">G</span>
                 </div>
-                <h2 class="text-4xl md:text-6xl font-bold text-white mb-2">PRODUCT ROADMAP</h2>
-                <div class="h-1 w-24 bg-green-500 mx-auto mt-4"></div>
+                <h2 class="text-4xl md:text-6xl font-bold text-green-400 mb-2 neon-text">GREEN CHIP</h2>
+                <p class="text-xl text-white tracking-widest">PRODUCT ROADMAP</p>
             </div>
 
             <div class="relative hidden md:block py-10">
@@ -135,55 +148,51 @@
 
                 <div class="grid grid-cols-4 gap-4 relative z-10">
                     <div class="text-center roadmap-item opacity-0 translate-y-10">
-                        <div class="w-24 h-24 mx-auto rounded-full bg-black border-4 border-green-500 flex items-center justify-center roadmap-node mb-6">
+                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
                             <span class="text-3xl font-bold text-white">01</span>
                         </div>
-                        <h3 class="text-xl font-bold text-green-400">GREENCHIP CALLS</h3>
-                        <p class="text-sm text-gray-500 mt-2">Live Analysis & Signals</p>
+                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">GREENCHIP CALLS</h3>
                     </div>
 
                     <div class="text-center roadmap-item opacity-0 translate-y-10" style="transition-delay: 0.2s">
-                        <div class="w-24 h-24 mx-auto rounded-full bg-black border-4 border-green-500 flex items-center justify-center roadmap-node mb-6">
+                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
                             <span class="text-3xl font-bold text-white">02</span>
                         </div>
-                        <h3 class="text-xl font-bold text-green-400">FUTURES</h3>
-                        <p class="text-sm text-gray-500 mt-2">Leverage Trading Integration</p>
+                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">FUTURES</h3>
                     </div>
 
                     <div class="text-center roadmap-item opacity-0 translate-y-10" style="transition-delay: 0.4s">
-                        <div class="w-24 h-24 mx-auto rounded-full bg-black border-4 border-green-500 flex items-center justify-center roadmap-node mb-6">
+                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
                             <span class="text-3xl font-bold text-white">03</span>
                         </div>
-                        <h3 class="text-xl font-bold text-green-400">TRADING BOT</h3>
-                        <p class="text-sm text-gray-500 mt-2">Automated Execution</p>
+                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">TRADING BOT</h3>
                     </div>
 
                     <div class="text-center roadmap-item opacity-0 translate-y-10" style="transition-delay: 0.6s">
-                        <div class="w-24 h-24 mx-auto rounded-full bg-black border-4 border-green-500 flex items-center justify-center roadmap-node mb-6 shadow-[0_0_30px_rgba(0,255,0,0.3)]">
+                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
                             <span class="text-3xl font-bold text-white">04</span>
                         </div>
-                        <h3 class="text-xl font-bold text-green-400">LAUNCH TOKEN</h3>
-                        <p class="text-sm text-gray-500 mt-2">Greenchip Ecosystem Token</p>
+                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">LAUNCH <br> GREENCHIP TOKEN</h3>
                     </div>
                 </div>
             </div>
 
-            <div class="md:hidden space-y-12 relative pl-8 border-l-2 border-green-900">
+            <div class="md:hidden space-y-16 relative pl-8 border-l-4 border-green-500 shadow-[0_0_15px_#00FF00]">
                 <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[41px] top-0 w-10 h-10 rounded-full bg-black border-2 border-green-500 flex items-center justify-center text-xs font-bold">01</div>
+                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">01</div>
                     <h3 class="text-2xl font-bold text-green-400">GREENCHIP CALLS</h3>
                 </div>
                 <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[41px] top-0 w-10 h-10 rounded-full bg-black border-2 border-green-500 flex items-center justify-center text-xs font-bold">02</div>
+                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">02</div>
                     <h3 class="text-2xl font-bold text-green-400">FUTURES</h3>
                 </div>
                 <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[41px] top-0 w-10 h-10 rounded-full bg-black border-2 border-green-500 flex items-center justify-center text-xs font-bold">03</div>
+                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">03</div>
                     <h3 class="text-2xl font-bold text-green-400">TRADING BOT</h3>
                 </div>
                 <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[41px] top-0 w-10 h-10 rounded-full bg-black border-2 border-green-500 flex items-center justify-center text-xs font-bold shadow-[0_0_10px_rgba(0,255,0,0.5)]">04</div>
-                    <h3 class="text-2xl font-bold text-green-400">LAUNCH TOKEN</h3>
+                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">04</div>
+                    <h3 class="text-2xl font-bold text-green-400">LAUNCH <br> GREENCHIP TOKEN</h3>
                 </div>
             </div>
         </div>
@@ -261,7 +270,7 @@
 
     <footer class="bg-black border-t border-gray-900 py-12 text-center">
         <div class="mb-6">
-            <img src="logo.gif" alt="Logo" class="h-10 mx-auto opacity-80">
+            <img src="logo.png" alt="Logo" class="h-10 mx-auto opacity-80">
         </div>
         <div class="flex justify-center space-x-8 mb-8">
             <a href="https://x.com/greenchipcrypto" class="text-gray-400 hover:text-green-500 text-2xl"><i class="fa-brands fa-x-twitter"></i></a>
