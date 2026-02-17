@@ -1,313 +1,1625 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Chip | Est 2025</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Chip — Smart Crypto Calls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff41;
+    --green-dim: #00b140;
+    --green-dark: #003d1a;
+    --black: #000000;
+    --off-black: #050505;
+    --card-bg: #0a0a0a;
+    --border: #111;
+    --white: #ffffff;
+    --gray: #888;
+    --light-gray: #ccc;
+  }
 
-    <style>
-        /* CUSTOM STYLES & NEON EFFECTS */
-        body {
-            background-color: #050505;
-            color: #ffffff;
-            font-family: 'Courier New', Courier, monospace;
-            overflow-x: hidden;
-        }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Matrix/Grid Background */
-        .bg-grid {
-            background-image: linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-        }
+html { scroll-behavior: smooth; }
 
-        .neon-text { text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
-        .neon-box { box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); border: 1px solid #00FF00; }
-        
-        /* Glitch Button */
-        .btn-glitch { position: relative; overflow: hidden; }
-        .btn-glitch::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.4), transparent); transition: 0.5s;
-        }
-        .btn-glitch:hover::before { left: 100%; }
+body {
+background: var(--black);
+color: var(--white);
+font-family: 'DM Sans', sans-serif;
+overflow-x: hidden;
+/* Only show custom cursor on devices that have a mouse */
+cursor: default; 
+}
 
-        /* ROADMAP SPECIFIC STYLES (Matching your Image) */
-        .roadmap-line {
-            position: absolute;
-            top: 3rem; /* Aligned with circles */
-            left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, transparent, #00FF00, transparent);
-            box-shadow: 0 0 15px #00FF00;
-            z-index: 0;
-        }
-        
-        .roadmap-ring {
-            background: #000;
-            border: 4px solid #00FF00;
-            box-shadow: 0 0 20px #00FF00, inset 0 0 10px #00FF00;
-            z-index: 10;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .roadmap-ring::after {
-            content: '';
-            position: absolute;
-            top: -6px; left: -6px; right: -6px; bottom: -6px;
-            border: 1px solid rgba(0, 255, 0, 0.5);
-            border-radius: 50%;
-            animation: pulse-ring 2s infinite;
-        }
+/* CUSTOM CURSOR - Only for desktop/mouse users */
+@media (hover: hover) and (pointer: fine) {
+    body { cursor: none; }
+    .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+    display: block;
+    }
+    .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.2s ease;
+    opacity: 0.5;
+    display: block;
+    }
+}
+/* Hide cursor on touch devices */
+@media (hover: none) {
+    .cursor, .cursor-ring { display: none !important; }
+}
 
-        @keyframes pulse-ring {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.2); opacity: 0; }
-        }
+/* SCANLINE OVERLAY */
+body::before {
+content: '';
+position: fixed;
+inset: 0;
+background: repeating-linear-gradient(
+0deg,
+transparent,
+transparent 2px,
+rgba(0,255,65,0.012) 2px,
+rgba(0,255,65,0.012) 4px
+);
+pointer-events: none;
+z-index: 1000;
+}
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #00FF00; border-radius: 4px; }
-    </style>
+/* GRID NOISE */
+body::after {
+content: '';
+position: fixed;
+inset: 0;
+background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+pointer-events: none;
+z-index: 999;
+opacity: 0.3;
+}
+
+/* NAVBAR */
+nav {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 900;
+padding: 20px 48px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+backdrop-filter: blur(20px);
+background: rgba(0,0,0,0.7);
+border-bottom: 1px solid rgba(0,255,65,0.08);
+transition: all 0.3s;
+}
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 14px;
+text-decoration: none;
+}
+.nav-logo img {
+height: 45px; /* Adjusted for PNG logo */
+width: auto;
+filter: drop-shadow(0 0 8px rgba(0,255,65,0.4));
+}
+.nav-links {
+display: flex;
+align-items: center;
+gap: 36px;
+list-style: none;
+}
+.nav-links a {
+color: var(--gray);
+text-decoration: none;
+font-size: 13px;
+font-family: 'Space Mono', monospace;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+transition: color 0.2s;
+position: relative;
+}
+.nav-links a::after {
+content: '';
+position: absolute;
+bottom: -4px; left: 0; right: 100%;
+height: 1px;
+background: var(--green);
+transition: right 0.3s ease;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a:hover::after { right: 0; }
+.nav-cta {
+background: transparent;
+border: 1px solid var(--green);
+color: var(--green);
+padding: 10px 24px;
+font-family: 'Space Mono', monospace;
+font-size: 12px;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+text-decoration: none;
+cursor: pointer;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
+}
+.nav-cta::before {
+content: '';
+position: absolute;
+inset: 0;
+background: var(--green);
+transform: scaleX(0);
+transform-origin: left;
+transition: transform 0.3s ease;
+}
+.nav-cta:hover::before { transform: scaleX(1); }
+.nav-cta:hover { color: var(--black); }
+.nav-cta span { position: relative; z-index: 1; }
+
+/* HERO */
+#hero {
+position: relative;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 120px 48px 80px;
+overflow: hidden;
+text-align: center;
+}
+.hero-grid {
+position: absolute;
+inset: 0;
+background-image:
+linear-gradient(rgba(0,255,65,0.04) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,255,65,0.04) 1px, transparent 1px);
+background-size: 60px 60px;
+animation: gridShift 20s linear infinite;
+}
+@keyframes gridShift {
+0% { background-position: 0 0; }
+100% { background-position: 60px 60px; }
+}
+.hero-glow {
+position: absolute;
+top: 40%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 600px;
+height: 600px;
+background: radial-gradient(circle, rgba(0,177,64,0.12) 0%, transparent 70%);
+pointer-events: none;
+animation: pulseGlow 4s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+.hero-badge {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+border: 1px solid rgba(0,255,65,0.3);
+background: rgba(0,255,65,0.05);
+padding: 6px 16px;
+font-family: 'Space Mono', monospace;
+font-size: 11px;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+color: var(--green);
+margin-bottom: 32px;
+animation: fadeSlideDown 0.8s ease both;
+}
+.badge-dot {
+width: 6px; height: 6px;
+background: var(--green);
+border-radius: 50%;
+animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.2; }
+}
+.hero-title {
+font-family: 'Bebas Neue', sans-serif;
+font-size: clamp(60px, 11vw, 160px); /* Adjusted clamp for mobile */
+line-height: 0.9;
+letter-spacing: -0.02em;
+position: relative;
+z-index: 1;
+animation: fadeSlideUp 1s ease both 0.2s;
+}
+.hero-title .line-green { color: var(--green); display: block; }
+.hero-title .line-white { color: var(--white); display: block; }
+.hero-title .line-outline {
+display: block;
+-webkit-text-stroke: 2px var(--green);
+color: transparent;
+}
+.hero-sub {
+font-size: 18px;
+color: var(--gray);
+max-width: 540px;
+margin: 28px auto 44px;
+line-height: 1.7;
+font-weight: 300;
+animation: fadeSlideUp 1s ease both 0.4s;
+}
+.hero-sub strong { color: var(--white); font-weight: 600; }
+.hero-buttons {
+display: flex;
+gap: 16px;
+justify-content: center;
+flex-wrap: wrap;
+animation: fadeSlideUp 1s ease both 0.6s;
+}
+.btn-primary {
+background: var(--green);
+color: var(--black);
+padding: 16px 36px;
+font-family: 'Space Mono', monospace;
+font-size: 13px;
+font-weight: 700;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+text-decoration: none;
+cursor: pointer;
+display: inline-block;
+transition: all 0.2s;
+position: relative;
+overflow: hidden;
+}
+.btn-primary::after {
+content: '';
+position: absolute;
+inset: 0;
+background: rgba(255,255,255,0.15);
+opacity: 0;
+transition: opacity 0.2s;
+}
+.btn-primary:hover::after { opacity: 1; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,255,65,0.3); }
+.btn-secondary {
+background: transparent;
+color: var(--white);
+padding: 15px 36px;
+border: 1px solid rgba(255,255,255,0.2);
+font-family: 'Space Mono', monospace;
+font-size: 13px;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+text-decoration: none;
+cursor: pointer;
+display: inline-block;
+transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--green); color: var(--green); }
+.hero-stats {
+display: flex;
+gap: 64px;
+margin-top: 72px;
+justify-content: center;
+animation: fadeSlideUp 1s ease both 0.8s;
+position: relative;
+z-index: 1;
+}
+.stat-item { text-align: center; }
+.stat-num {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 52px;
+color: var(--green);
+display: block;
+line-height: 1;
+text-shadow: 0 0 30px rgba(0,255,65,0.3);
+}
+.stat-label {
+font-family: 'Space Mono', monospace;
+font-size: 10px;
+color: var(--gray);
+text-transform: uppercase;
+letter-spacing: 0.1em;
+margin-top: 6px;
+display: block;
+}
+.stat-divider {
+width: 1px;
+height: 50px;
+background: linear-gradient(to bottom, transparent, rgba(0,255,65,0.3), transparent);
+align-self: center;
+}
+
+@keyframes fadeSlideUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeSlideDown {
+from { opacity: 0; transform: translateY(-20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* TICKER */
+.ticker-wrap {
+background: rgba(0,255,65,0.04);
+border-top: 1px solid rgba(0,255,65,0.1);
+border-bottom: 1px solid rgba(0,255,65,0.1);
+overflow: hidden;
+padding: 14px 0;
+white-space: nowrap;
+}
+.ticker {
+display: inline-block;
+animation: tickerMove 30s linear infinite;
+}
+@keyframes tickerMove {
+0% { transform: translateX(0); }
+100% { transform: translateX(-50%); }
+}
+.ticker-item {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+margin: 0 32px;
+font-family: 'Space Mono', monospace;
+font-size: 12px;
+color: var(--gray);
+}
+.ticker-item .green { color: var(--green); }
+.ticker-sep { color: rgba(0,255,65,0.3); }
+
+/* SECTION BASE */
+section {
+padding: 120px 48px;
+position: relative;
+}
+.section-label {
+font-family: 'Space Mono', monospace;
+font-size: 11px;
+color: var(--green);
+text-transform: uppercase;
+letter-spacing: 0.2em;
+margin-bottom: 16px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.section-label::after {
+content: '';
+flex: 1;
+max-width: 60px;
+height: 1px;
+background: var(--green);
+}
+.section-title {
+font-family: 'Bebas Neue', sans-serif;
+font-size: clamp(40px, 6vw, 80px);
+line-height: 1;
+margin-bottom: 20px;
+}
+.section-sub {
+color: var(--gray);
+font-size: 16px;
+max-width: 520px;
+line-height: 1.8;
+font-weight: 300;
+}
+
+/* HOW IT WORKS */
+#how {
+max-width: 1400px;
+margin: 0 auto;
+}
+.how-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+margin-top: 80px;
+align-items: start;
+}
+.how-steps { display: flex; flex-direction: column; gap: 0; }
+.step {
+display: flex;
+gap: 28px;
+padding: 32px 0;
+border-bottom: 1px solid var(--border);
+position: relative;
+opacity: 0;
+transform: translateX(-20px);
+transition: all 0.6s ease;
+}
+.step.visible { opacity: 1; transform: translateX(0); }
+.step-num {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 48px;
+color: rgba(0,255,65,0.15);
+line-height: 1;
+min-width: 60px;
+transition: color 0.3s;
+}
+.step:hover .step-num { color: var(--green); }
+.step-content h3 {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 26px;
+letter-spacing: 0.05em;
+margin-bottom: 8px;
+}
+.step-content p { color: var(--gray); font-size: 14px; line-height: 1.8; }
+.step-tag {
+display: inline-block;
+margin-top: 10px;
+padding: 3px 10px;
+background: rgba(0,255,65,0.08);
+border: 1px solid rgba(0,255,65,0.2);
+font-family: 'Space Mono', monospace;
+font-size: 10px;
+color: var(--green);
+letter-spacing: 0.08em;
+}
+
+.how-visual {
+position: sticky;
+top: 120px;
+}
+.terminal {
+background: #080808;
+border: 1px solid rgba(0,255,65,0.15);
+padding: 0;
+font-family: 'Space Mono', monospace;
+font-size: 12px;
+overflow: hidden;
+box-shadow: 0 0 60px rgba(0,255,65,0.05);
+}
+.terminal-bar {
+background: #111;
+padding: 12px 16px;
+display: flex;
+align-items: center;
+gap: 8px;
+border-bottom: 1px solid rgba(0,255,65,0.1);
+}
+.term-dot {
+width: 10px; height: 10px;
+border-radius: 50%;
+}
+.term-dot.r { background: #ff5f57; }
+.term-dot.y { background: #febc2e; }
+.term-dot.g { background: #28c840; }
+.terminal-title {
+margin-left: auto; margin-right: auto;
+color: var(--gray);
+font-size: 11px;
+letter-spacing: 0.08em;
+}
+.terminal-body {
+padding: 20px;
+line-height: 2;
+min-height: 360px;
+}
+.term-line { display: flex; gap: 10px; align-items: flex-start; }
+.term-prompt { color: var(--green); }
+.term-text { color: #ccc; }
+.term-text .g { color: var(--green); }
+.term-text .y { color: #febc2e; }
+.term-text .r { color: #ff5f57; }
+.term-text .w { color: #fff; font-weight: 700; }
+.term-cursor {
+display: inline-block;
+width: 8px; height: 14px;
+background: var(--green);
+animation: blink 1s step-end infinite;
+vertical-align: middle;
+}
+
+/* TIERS */
+#tiers { background: var(--off-black); }
+.tiers-inner { max-width: 1200px; margin: 0 auto; }
+.tiers-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 2px;
+margin-top: 60px;
+background: rgba(0,255,65,0.05);
+border: 1px solid rgba(0,255,65,0.1);
+}
+.tier-card {
+background: var(--off-black);
+padding: 40px 32px;
+position: relative;
+overflow: hidden;
+opacity: 0;
+transform: translateY(30px);
+transition: all 0.6s ease;
+}
+.tier-card.visible { opacity: 1; transform: translateY(0); }
+.tier-card::before {
+content: '';
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 2px;
+background: linear-gradient(90deg, transparent, var(--green), transparent);
+opacity: 0;
+transition: opacity 0.3s;
+}
+.tier-card:hover::before { opacity: 1; }
+.tier-card.featured {
+background: rgba(0,255,65,0.04);
+border: 1px solid rgba(0,255,65,0.15);
+}
+.tier-card.featured::before { opacity: 1; }
+.tier-icon {
+font-size: 32px;
+margin-bottom: 20px;
+display: block;
+}
+.tier-name {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 32px;
+letter-spacing: 0.05em;
+margin-bottom: 8px;
+}
+.tier-mcap {
+font-family: 'Space Mono', monospace;
+font-size: 13px;
+color: var(--green);
+margin-bottom: 20px;
+}
+.tier-desc { color: var(--gray); font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
+.tier-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.tier-features li {
+display: flex;
+align-items: flex-start;
+gap: 10px;
+font-size: 14px;
+color: var(--light-gray);
+}
+.tier-features .check { color: var(--green); flex-shrink: 0; margin-top: 2px; }
+.tier-badge {
+position: absolute;
+top: 24px; right: 24px;
+background: var(--green);
+color: var(--black);
+padding: 4px 10px;
+font-family: 'Space Mono', monospace;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+}
+
+/* SIGNAL CARDS */
+#signals { max-width: 1400px; margin: 0 auto; }
+.signals-header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
+.signals-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 16px;
+margin-top: 48px;
+}
+.signal-card {
+background: var(--card-bg);
+border: 1px solid var(--border);
+padding: 20px;
+position: relative;
+overflow: hidden;
+opacity: 0;
+transform: scale(0.96);
+transition: all 0.5s ease;
+}
+.signal-card.visible { opacity: 1; transform: scale(1); }
+.signal-card::after {
+content: '';
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 1px;
+background: linear-gradient(90deg, transparent, var(--green), transparent);
+opacity: 0;
+transition: opacity 0.3s;
+}
+.signal-card:hover::after { opacity: 1; }
+.signal-card:hover { border-color: rgba(0,255,65,0.2); }
+.signal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.signal-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.05em; }
+.signal-risk { width: 10px; height: 10px; border-radius: 50%; }
+.signal-risk.green { background: #00ff41; box-shadow: 0 0 8px #00ff41; }
+.signal-risk.yellow { background: #febc2e; box-shadow: 0 0 8px #febc2e; }
+.signal-risk.red { background: #ff5f57; box-shadow: 0 0 8px #ff5f57; }
+.signal-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.signal-stat label { display: block; font-family: 'Space Mono', monospace; font-size: 9px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+.signal-stat value { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--white); }
+.signal-stat value.gain { color: var(--green); font-weight: 700; }
+.signal-chain {
+font-family: 'Space Mono', monospace;
+font-size: 10px;
+padding: 3px 8px;
+border: 1px solid rgba(0,255,65,0.2);
+color: var(--green);
+display: inline-block;
+margin-bottom: 14px;
+}
+.signal-bar { background: rgba(0,255,65,0.05); height: 3px; margin-bottom: 14px; overflow: hidden; }
+.signal-bar-fill {
+height: 100%;
+background: var(--green);
+border-radius: 0;
+animation: barGrow 2s ease both 1s;
+}
+@keyframes barGrow {
+from { width: 0 !important; }
+}
+.signal-footer { display: flex; justify-content: space-between; align-items: center; }
+.signal-time { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gray); }
+.signal-tier { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--green); }
+
+/* RISK SYSTEM */
+#risk {
+background: var(--off-black);
+}
+.risk-inner { max-width: 1200px; margin: 0 auto; }
+.risk-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+margin-top: 60px;
+align-items: center;
+}
+.risk-meters { display: flex; flex-direction: column; gap: 24px; }
+.risk-meter {
+opacity: 0;
+transform: translateX(30px);
+transition: all 0.6s ease;
+}
+.risk-meter.visible { opacity: 1; transform: translateX(0); }
+.meter-top { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.meter-label { font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+.meter-val { font-family: 'Space Mono', monospace; font-size: 12px; }
+.meter-val.green { color: var(--green); }
+.meter-val.yellow { color: #febc2e; }
+.meter-val.red { color: #ff5f57; }
+.meter-track { background: rgba(255,255,255,0.05); height: 4px; position: relative; overflow: hidden; }
+.meter-fill {
+height: 100%;
+transition: width 1.5s ease 0.5s;
+position: relative;
+}
+.meter-fill.green { background: linear-gradient(90deg, var(--green-dark), var(--green)); }
+.meter-fill.yellow { background: linear-gradient(90deg, #7a5500, #febc2e); }
+.meter-fill.red { background: linear-gradient(90deg, #5c1d1d, #ff5f57); }
+
+.risk-checks { display: flex; flex-direction: column; gap: 20px; }
+.risk-check {
+display: flex;
+align-items: flex-start;
+gap: 16px;
+padding: 20px;
+border: 1px solid var(--border);
+transition: border-color 0.3s;
+}
+.risk-check:hover { border-color: rgba(0,255,65,0.2); }
+.risk-icon {
+font-size: 24px;
+min-width: 32px;
+text-align: center;
+}
+.risk-check h4 { font-size: 16px; margin-bottom: 6px; }
+.risk-check p { color: var(--gray); font-size: 13px; line-height: 1.7; }
+
+/* LEADERBOARD */
+#leaderboard { max-width: 1000px; margin: 0 auto; }
+.lb-table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Allow horizontal scroll on mobile */
+  -webkit-overflow-scrolling: touch;
+}
+.lb-table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 48px;
+min-width: 600px; /* Ensure table doesn't squash too much */
+}
+.lb-table th {
+font-family: 'Space Mono', monospace;
+font-size: 10px;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+color: var(--gray);
+padding: 12px 20px;
+text-align: left;
+border-bottom: 1px solid var(--border);
+}
+.lb-table td {
+padding: 18px 20px;
+border-bottom: 1px solid rgba(255,255,255,0.03);
+font-size: 14px;
+vertical-align: middle;
+}
+.lb-table tr { transition: background 0.2s; }
+.lb-table tr:hover td { background: rgba(0,255,65,0.02); }
+.lb-rank {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 28px;
+color: rgba(255,255,255,0.1);
+min-width: 50px;
+}
+.lb-rank.gold { color: #ffd700; }
+.lb-rank.silver { color: #c0c0c0; }
+.lb-rank.bronze { color: #cd7f32; }
+.lb-name { font-family: 'DM Sans', sans-serif; font-weight: 600; }
+.lb-sym { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gray); }
+.lb-gain {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 28px;
+color: var(--green);
+}
+.lb-chain { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gray); }
+.lb-bar-wrap { width: 120px; }
+.lb-bar-track { background: rgba(0,255,65,0.05); height: 3px; }
+.lb-bar-fill {
+height: 100%;
+background: var(--green);
+transition: width 1.5s ease;
+}
+
+/* SOCIALS / JOIN */
+#join { background: var(--off-black); }
+.join-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+.join-text .section-label { justify-content: center; }
+.join-text .section-label::after { display: none; }
+.join-text .section-label::before {
+content: '';
+flex: none;
+width: 60px;
+height: 1px;
+background: var(--green);
+}
+.social-cards {
+display: flex;
+gap: 20px;
+justify-content: center;
+margin-top: 60px;
+flex-wrap: wrap;
+}
+.social-card {
+background: var(--card-bg);
+border: 1px solid var(--border);
+padding: 36px 40px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 16px;
+text-decoration: none;
+color: var(--white);
+min-width: 220px;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
+cursor: pointer;
+}
+.social-card::before {
+content: '';
+position: absolute;
+inset: 0;
+background: radial-gradient(circle at center, rgba(0,255,65,0.06), transparent 70%);
+opacity: 0;
+transition: opacity 0.3s;
+}
+.social-card:hover::before { opacity: 1; }
+.social-card:hover { border-color: rgba(0,255,65,0.3); transform: translateY(-4px); }
+.social-icon { font-size: 40px; }
+.social-name {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 22px;
+letter-spacing: 0.08em;
+}
+.social-handle { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--green); }
+.social-desc { font-size: 13px; color: var(--gray); text-align: center; line-height: 1.6; }
+
+/* FOOTER */
+footer {
+border-top: 1px solid var(--border);
+padding: 60px 48px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+flex-wrap: wrap;
+gap: 24px;
+}
+.footer-logo { display: flex; align-items: center; gap: 14px; }
+.footer-logo img { height: 35px; width: auto; filter: drop-shadow(0 0 6px rgba(0,255,65,0.3)); }
+.footer-copy {
+font-family: 'Space Mono', monospace;
+font-size: 11px;
+color: var(--gray);
+letter-spacing: 0.06em;
+}
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+font-family: 'Space Mono', monospace;
+font-size: 11px;
+color: var(--gray);
+text-decoration: none;
+letter-spacing: 0.06em;
+transition: color 0.2s;
+cursor: pointer;
+}
+.footer-links a:hover { color: var(--green); }
+
+/* SCROLL REVEAL */
+.reveal {
+opacity: 0;
+transform: translateY(24px);
+transition: all 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--green-dim); }
+
+/* GLITCH EFFECT */
+.glitch {
+position: relative;
+}
+.glitch::before, .glitch::after {
+content: attr(data-text);
+position: absolute;
+top: 0; left: 0;
+width: 100%; height: 100%;
+}
+.glitch::before {
+color: var(--green);
+animation: glitch1 8s infinite;
+clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+}
+.glitch::after {
+color: #ff0040;
+animation: glitch2 8s infinite;
+clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+}
+@keyframes glitch1 {
+0%, 90%, 100% { transform: none; opacity: 0; }
+91% { transform: skew(-2deg) translateX(-4px); opacity: 0.5; }
+94% { transform: skew(2deg) translateX(4px); opacity: 0.3; }
+}
+@keyframes glitch2 {
+0%, 92%, 100% { transform: none; opacity: 0; }
+93% { transform: skew(1deg) translateX(3px); opacity: 0.4; }
+96% { transform: skew(-1deg) translateX(-3px); opacity: 0.2; }
+}
+
+/* ==========================================================================
+   FITNESS & RESPONSIVE SYSTEM (LAPTOP, COMPUTER, IPAD, IPHONE, ANDROID)
+   ========================================================================== */
+
+/* TABLET (iPad, Medium Screens) - Break 3 columns into 2 */
+@media (max-width: 1024px) {
+  .hero-title { font-size: 100px; }
+  .signals-grid, .tiers-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .risk-grid, .how-grid {
+    gap: 40px;
+  }
+}
+
+/* MOBILE (iPhone, Android) - Stack everything */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-logo img { height: 32px; }
+  .nav-links { display: none; } /* Hamburger could be added here later */
+  
+  /* Reduce padding for sections */
+  section { padding: 60px 20px; }
+  
+  /* Hero adjustments */
+  #hero { padding: 100px 20px 60px; }
+  .hero-title { font-size: 64px; }
+  .hero-sub { font-size: 15px; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; margin-top: 48px; }
+  .stat-divider { display: none; } /* Hide dividers on mobile wrap */
+  .stat-item { width: 45%; } /* 2x2 grid stats */
+  
+  /* Stack Grids */
+  .how-grid, .risk-grid { grid-template-columns: 1fr; gap: 40px; }
+  .signals-grid, .tiers-grid { grid-template-columns: 1fr; }
+  
+  /* Hide Visuals on mobile to save space */
+  .how-visual { display: none; }
+  
+  /* Tiers adjustments */
+  .tiers-grid { background: none; border: none; gap: 20px; }
+  
+  /* Footer adjustments */
+  footer { flex-direction: column; text-align: center; padding: 40px 20px; }
+  .footer-links { justify-content: center; }
+  
+  /* Leaderboard Stats Stack */
+  #leaderboard > div[style*="flex"] {
+    flex-direction: column;
+    gap: 20px;
+  }
+  #leaderboard > div[style*="flex"] > div[style*="width:1px"] {
+    width: 100%; height: 1px; /* Turn vertical dividers to horizontal */
+  }
+}
+
+/* SMALL MOBILE (Old iPhones, SE) */
+@media (max-width: 400px) {
+  .hero-title { font-size: 52px; }
+  .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+}
+
+</style>
+
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="bg-grid"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-    <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-green-900/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex-shrink-0 flex items-center gap-3">
-                    <img src="logo.png" alt="Green Chip Logo" class="h-12 w-auto object-contain">
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#features" class="hover:text-green-400 transition px-3 py-2 text-sm font-bold">SYSTEM</a>
-                        <a href="#roadmap" class="hover:text-green-400 transition px-3 py-2 text-sm font-bold">ROADMAP</a>
-                        <a href="#tiers" class="hover:text-green-400 transition px-3 py-2 text-sm font-bold">ACCESS</a>
-                        <a href="https://t.me/greenchipofficial" target="_blank" class="bg-green-600 text-black px-4 py-2 rounded font-bold hover:bg-green-500 transition">
-                            TELEGRAM
-                        </a>
-                    </div>
-                </div>
-            </div>
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="logo.png" alt="Green Chip Logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#tiers">Tiers</a></li>
+    <li><a href="#signals">Signals</a></li>
+    <li><a href="#leaderboard">Performance</a></li>
+    <li><a href="#join">Community</a></li>
+  </ul>
+  <a href="https://discord.gg/greenchip" class="nav-cta"><span>Join Free</span></a>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Live — Scanning Solana &amp; BSC
+  </div>
+  <h1 class="hero-title">
+    <span class="line-green">GREEN</span>
+    <span class="line-white glitch" data-text="CHIP">CHIP</span>
+    <span class="line-outline">CALLS</span>
+  </h1>
+  <p class="hero-sub">
+    <strong>AI-powered crypto signal bot</strong> scanning Solana and BSC in real-time. Smart routing, risk-rated calls, and unified leaderboards — delivered straight to Telegram and Discord.
+  </p>
+  <div class="hero-buttons">
+    <a href="https://discord.gg/greenchip" class="btn-primary">Join Discord Free</a>
+    <a href="https://t.me/greenchipofficial" class="btn-secondary">Telegram Channel →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num" id="counterMcap">20K</span>
+      <span class="stat-label">Min Market Cap</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">24/7</span>
+      <span class="stat-label">Live Scanning</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Active Channels</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">V9</span>
+      <span class="stat-label">Current Version</span>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">🟢 PREMIUM SOL <span class="green">$20K–$75K</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🟡 PREMIUM BSC <span class="green">$20K–$75K</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">☀️ FREE SOLANA <span class="green">$80K–$120K</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">📡 BOOST SCAN <span class="green">LIVE</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🏆 LEADERBOARD <span class="green">DAILY / WEEKLY / MONTHLY</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🛡️ ANTI-RUG <span class="green">MIN LIQ $1,500</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🎯 HYPE SCORE <span class="green">AI POWERED</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🟢 PREMIUM SOL <span class="green">$20K–$75K</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🟡 PREMIUM BSC <span class="green">$20K–$75K</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">☀️ FREE SOLANA <span class="green">$80K–$120K</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">📡 BOOST SCAN <span class="green">LIVE</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🏆 LEADERBOARD <span class="green">DAILY / WEEKLY / MONTHLY</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🛡️ ANTI-RUG <span class="green">MIN LIQ $1,500</span></span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">🎯 HYPE SCORE <span class="green">AI POWERED</span></span>
+  </div>
+</div>
+
+<section>
+<div id="how" style="max-width:1400px;margin:0 auto;">
+  <div class="section-label reveal">01 — System</div>
+  <h2 class="section-title reveal">How Green Chip<br>Works</h2>
+  <p class="section-sub reveal">A unified scanning engine monitors multiple data sources simultaneously, routes calls by market cap tier, and tracks every position with stop-loss logic.</p>
+  <div class="how-grid">
+    <div class="how-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Multi-Source Scan</h3>
+          <p>Three concurrent scanners — Token Profiles, Boost Feeds, and DEX Search — sweep Solana and BSC every 15–60 seconds for new token activity.</p>
+          <span class="step-tag">PROFILES · BOOSTS · SEARCH</span>
         </div>
-    </nav>
-
-    <section class="relative h-screen flex items-center justify-center overflow-hidden pt-16">
-        <div class="absolute inset-0 bg-black opacity-60"></div>
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
-            
-            <div class="hero-anim opacity-0 translate-y-10 mb-8 flex justify-center">
-                 <img src="logo.png" alt="Green Chip" class="h-32 md:h-48 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,255,0,0.5)]">
-            </div>
-
-            <h1 class="hero-anim opacity-0 translate-y-10 text-4xl md:text-7xl font-black mb-6 tracking-tighter">
-                THE ULTIMATE <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-700 neon-text">CRYPTO INTELLIGENCE</span>
-            </h1>
-            
-            <p class="hero-anim opacity-0 translate-y-10 mt-4 max-w-2xl mx-auto text-xl text-gray-400 font-mono">
-                // EST 2025 // AUTOMATED TRADING & ANALYSIS
-            </p>
-
-            <div class="hero-anim opacity-0 translate-y-10 mt-10 flex flex-col md:flex-row justify-center gap-4">
-                <a href="https://t.me/greenchipofficial" class="btn-glitch bg-green-600 text-black font-bold py-4 px-8 rounded hover:bg-green-500 transition shadow-[0_0_20px_rgba(0,255,0,0.4)]">
-                    <i class="fa-brands fa-telegram"></i> Launch Telegram
-                </a>
-                <a href="https://discord.gg/greenchip" class="btn-glitch border border-white text-white font-bold py-4 px-8 rounded hover:bg-white hover:text-black transition">
-                    <i class="fa-brands fa-discord"></i> Join Discord
-                </a>
-            </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Risk Engine Analysis</h3>
+          <p>Every token is scored against liquidity floors ($1,500+), 1-hour volume ($500+), social presence, age filter (1–60 mins), and name spam detection.</p>
+          <span class="step-tag">🟢 GREEN · 🟡 YELLOW · 🔴 RED</span>
         </div>
-    </section>
-
-    <section id="roadmap" class="py-24 bg-black border-y border-green-900/30 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-24">
-                <div class="inline-block p-4 rounded-full border border-green-500 mb-6 shadow-[0_0_15px_#00FF00]">
-                    <span class="text-4xl font-bold text-white">G</span>
-                </div>
-                <h2 class="text-4xl md:text-6xl font-bold text-green-400 mb-2 neon-text">GREEN CHIP</h2>
-                <p class="text-xl text-white tracking-widest">PRODUCT ROADMAP</p>
-            </div>
-
-            <div class="relative hidden md:block py-10">
-                <div class="roadmap-line"></div>
-
-                <div class="grid grid-cols-4 gap-4 relative z-10">
-                    <div class="text-center roadmap-item opacity-0 translate-y-10">
-                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
-                            <span class="text-3xl font-bold text-white">01</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">GREENCHIP CALLS</h3>
-                    </div>
-
-                    <div class="text-center roadmap-item opacity-0 translate-y-10" style="transition-delay: 0.2s">
-                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
-                            <span class="text-3xl font-bold text-white">02</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">FUTURES</h3>
-                    </div>
-
-                    <div class="text-center roadmap-item opacity-0 translate-y-10" style="transition-delay: 0.4s">
-                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
-                            <span class="text-3xl font-bold text-white">03</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">TRADING BOT</h3>
-                    </div>
-
-                    <div class="text-center roadmap-item opacity-0 translate-y-10" style="transition-delay: 0.6s">
-                        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center roadmap-ring mb-8 bg-black">
-                            <span class="text-3xl font-bold text-white">04</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-green-400 uppercase tracking-wider">LAUNCH <br> GREENCHIP TOKEN</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="md:hidden space-y-16 relative pl-8 border-l-4 border-green-500 shadow-[0_0_15px_#00FF00]">
-                <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">01</div>
-                    <h3 class="text-2xl font-bold text-green-400">GREENCHIP CALLS</h3>
-                </div>
-                <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">02</div>
-                    <h3 class="text-2xl font-bold text-green-400">FUTURES</h3>
-                </div>
-                <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">03</div>
-                    <h3 class="text-2xl font-bold text-green-400">TRADING BOT</h3>
-                </div>
-                <div class="relative roadmap-item-mobile">
-                    <div class="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-black border-4 border-green-500 flex items-center justify-center text-sm font-bold text-white shadow-[0_0_10px_#00FF00]">04</div>
-                    <h3 class="text-2xl font-bold text-green-400">LAUNCH <br> GREENCHIP TOKEN</h3>
-                </div>
-            </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Smart Tier Routing</h3>
+          <p>Calls are automatically routed: $20K–$75K goes to Premium channels. $80K–$150K goes to Free channels. Never see the wrong call in the wrong place.</p>
+          <span class="step-tag">💎 PREMIUM · 🆓 FREE</span>
         </div>
-    </section>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Live Position Tracking</h3>
+          <p>Every call is tracked for 24 hours. Gain alerts fire at +45%, +100%, and +500%. Stop-loss exits at -90% or when liquidity drops below $300.</p>
+          <span class="step-tag">🚀 +45% · 🌕 +100% · 👑 +500%</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h3>Unified Leaderboards</h3>
+          <p>Daily, weekly, and monthly performance boards track win rates, average gains, and top performers — published simultaneously to Telegram and Discord.</p>
+          <span class="step-tag">DAILY · WEEKLY · MONTHLY</span>
+        </div>
+      </div>
+    </div>
 
-    <section id="features" class="py-20 bg-black/80">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-4xl font-bold mb-6">REAL-TIME INTELLIGENCE</h2>
-                    <ul class="space-y-6 font-mono text-lg">
-                        <li class="flex items-center text-gray-300">
-                            <i class="fa-solid fa-circle-nodes text-green-500 mr-4"></i>
-                            <span><b>Unified Brain:</b> TG & Discord Sync</span>
-                        </li>
-                        <li class="flex items-center text-gray-300">
-                            <i class="fa-solid fa-filter text-green-500 mr-4"></i>
-                            <span><b>Smart Filters:</b> Anti-Rug & Liquidity Checks</span>
-                        </li>
-                        <li class="flex items-center text-gray-300">
-                            <i class="fa-solid fa-bolt text-green-500 mr-4"></i>
-                            <span><b>Auto-Sniper:</b> 20k - 75k MCAP Entry</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="bg-gray-900 rounded-lg border border-gray-700 p-6 font-mono text-sm shadow-2xl neon-box">
-                    <div class="flex gap-2 mb-4">
-                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                    </div>
-                    <div class="text-green-400 space-y-3" id="terminal-content">
-                        <p>> [INIT] Loading Green Chip V9...</p>
-                        <p>> [STATUS] Roadmap Phase 1: ACTIVE</p>
-                        <p class="text-white">> [SCAN] Found: $CHIP (MCAP: $50k) - <span class="text-yellow-400">PREMIUM</span></p>
-                        <p class="text-blue-400">> [ALERT] Moonshot Detected (+100%)</p>
-                        <p class="animate-pulse">> _</p>
-                    </div>
-                </div>
+    <div class="how-visual">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="terminal-title">greenchip-v9 — scanner.js</span>
+        </div>
+        <div class="terminal-body" id="termBody">
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text"><span class="g">SYSTEM</span> Green Chip V9 Online</span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">Scanning: <span class="g">SOL</span> + <span class="y">BSC</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">History loaded: <span class="g">12,847</span> tokens</span></div>
+          <div class="term-line">&nbsp;</div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">[PROFILE] Found: <span class="w">MOONPUP</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">MCAP: <span class="g">$47,200</span> | LIQ: <span class="g">$6,800</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">Risk: <span class="g">🟢 GREEN</span> | Hype: <span class="g">80/100</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">→ Routed to: <span class="g">💎 PREMIUM SOL</span></span></div>
+          <div class="term-line">&nbsp;</div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">[BOOST] Found: <span class="w">GIGABRAIN</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">MCAP: <span class="y">$95,400</span> | Age: <span class="g">23min</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">→ Routed to: <span class="y">🆓 FREE SOL</span></span></div>
+          <div class="term-line">&nbsp;</div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text"><span class="g">🚀 UPDATE: MOONPUP +45%</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text">MCAP: <span class="g">$68,490</span></span></div>
+          <div class="term-line"><span class="term-prompt">›</span><span class="term-text"><span class="g">🌕 UPDATE: MOONPUP +100%</span></span></div>
+          <div class="term-line"><span class="term-prompt">&nbsp;</span><span class="term-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="tiers">
+<div class="tiers-inner">
+  <div class="section-label reveal">02 — Access Tiers</div>
+  <h2 class="section-title reveal">Choose Your Level</h2>
+  <p class="section-sub reveal">Two tiers, four channels. Free gives you high market cap Solana calls. Premium unlocks early entries on both chains.</p>
+  <div class="tiers-grid">
+    <div class="tier-card">
+      <span class="tier-icon">🆓</span>
+      <div class="tier-name">Free Tier</div>
+      <div class="tier-mcap">$80,000 — $150,000 MCAP</div>
+      <p class="tier-desc">Access to our public Solana calls. Great for new traders learning the system before going premium.</p>
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Telegram Free Channel</li>
+        <li><span class="check">✓</span> Discord Free Channel</li>
+        <li><span class="check">✓</span> Solana calls only</li>
+        <li><span class="check">✓</span> $80K–$120K (TG) / $80K–$150K (DC)</li>
+        <li><span class="check">✓</span> Gain alerts at +45%, +100%, +500%</li>
+      </ul>
+    </div>
+    <div class="tier-card featured">
+      <span class="tier-badge">Most Popular</span>
+      <span class="tier-icon">💎</span>
+      <div class="tier-name">Premium Tier</div>
+      <div class="tier-mcap">$20,000 — $75,000 MCAP</div>
+      <p class="tier-desc">Early entries on the smallest market caps. Biggest upside potential. Both Solana and BSC covered.</p>
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Telegram Premium (SOL)</li>
+        <li><span class="check">✓</span> Telegram Premium (BSC)</li>
+        <li><span class="check">✓</span> Discord Premium (SOL)</li>
+        <li><span class="check">✓</span> Discord Premium (BSC)</li>
+        <li><span class="check">✓</span> Leaderboard featured calls</li>
+        <li><span class="check">✓</span> Earliest possible entries</li>
+      </ul>
+    </div>
+    <div class="tier-card">
+      <span class="tier-icon">🏆</span>
+      <div class="tier-name">Leaderboard</div>
+      <div class="tier-mcap">Performance Tracking</div>
+      <p class="tier-desc">Transparent daily, weekly, and monthly reports. Win rates, average gains, and top performers — all public.</p>
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Daily reports at midnight EST</li>
+        <li><span class="check">✓</span> Weekly Monday summary</li>
+        <li><span class="check">✓</span> Monthly 1st-of-month report</li>
+        <li><span class="check">✓</span> Win rate progress bar</li>
+        <li><span class="check">✓</span> Top 8/15/20 performers listed</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+<div id="signals" style="max-width:1400px;margin:0 auto;">
+  <div class="signals-header">
+    <div>
+      <div class="section-label reveal">03 — Live Feed</div>
+      <h2 class="section-title reveal">Live Calls</h2>
+    </div>
+    <p class="section-sub reveal" style="max-width:300px;">Real-time calls look like this — risk-rated, chain-tagged, and hype-scored.</p>
+  </div>
+  
+  <div class="signals-grid" id="liveSignalsGrid">
+    
+    <div class="signal-card visible">
+      <div class="signal-header">
+        <div>
+          <div class="signal-name">🟢 MOONPUP</div>
+          <div class="signal-chain">☀️ SOLANA</div>
+        </div>
+        <div class="signal-risk green"></div>
+      </div>
+      <div class="signal-meta">
+        <div class="signal-stat"><label>MCAP</label><value>$47.2K</value></div>
+        <div class="signal-stat"><label>Liquidity</label><value>$6,800</value></div>
+        <div class="signal-stat"><label>Vol 1H</label><value>$4,200</value></div>
+        <div class="signal-stat"><label>Peak Gain</label><value class="gain">+284%</value></div>
+      </div>
+      <div style="margin-bottom:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--gray)">Hype Score</div>
+      <div class="signal-bar"><div class="signal-bar-fill" style="width:80%"></div></div>
+      <div class="signal-footer">
+        <span class="signal-time">14:32 EST</span>
+        <span class="signal-tier">💎 PREMIUM</span>
+      </div>
+    </div>
+
+    <div class="signal-card visible">
+      <div class="signal-header">
+        <div>
+          <div class="signal-name">🟡 GIGABRAIN</div>
+          <div class="signal-chain">☀️ SOLANA</div>
+        </div>
+        <div class="signal-risk yellow"></div>
+      </div>
+      <div class="signal-meta">
+        <div class="signal-stat"><label>MCAP</label><value>$95.4K</value></div>
+        <div class="signal-stat"><label>Liquidity</label><value>$3,100</value></div>
+        <div class="signal-stat"><label>Vol 1H</label><value>$1,800</value></div>
+        <div class="signal-stat"><label>Peak Gain</label><value class="gain">+67%</value></div>
+      </div>
+      <div style="margin-bottom:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--gray)">Hype Score</div>
+      <div class="signal-bar"><div class="signal-bar-fill" style="width:50%"></div></div>
+      <div class="signal-footer">
+        <span class="signal-time">13:07 EST</span>
+        <span class="signal-tier">🆓 FREE</span>
+      </div>
+    </div>
+
+    <div class="signal-card visible">
+      <div class="signal-header">
+        <div>
+          <div class="signal-name">🟢 BSCGEMV2</div>
+          <div class="signal-chain">🟡 BSC</div>
+        </div>
+        <div class="signal-risk green"></div>
+      </div>
+      <div class="signal-meta">
+        <div class="signal-stat"><label>MCAP</label><value>$31.8K</value></div>
+        <div class="signal-stat"><label>Liquidity</label><value>$9,200</value></div>
+        <div class="signal-stat"><label>Vol 1H</label><value>$7,500</value></div>
+        <div class="signal-stat"><label>Peak Gain</label><value class="gain">+512%</value></div>
+      </div>
+      <div style="margin-bottom:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--gray)">Hype Score</div>
+      <div class="signal-bar"><div class="signal-bar-fill" style="width:90%"></div></div>
+      <div class="signal-footer">
+        <span class="signal-time">11:54 EST</span>
+        <span class="signal-tier">💎 PREMIUM</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<section id="risk">
+<div class="risk-inner">
+  <div class="section-label reveal">04 — Safety</div>
+  <h2 class="section-title reveal">The Risk Engine</h2>
+  <p class="section-sub reveal">Every call passes a strict multi-layer filter before it ever reaches your screen. No exceptions.</p>
+  <div class="risk-grid">
+    <div class="risk-checks">
+      <div class="risk-check reveal">
+        <div class="risk-icon">💧</div>
+        <div>
+          <h4>Liquidity Gate</h4>
+          <p>Minimum $1,500 USD liquidity required. If it drops below $300 while tracked, stop-loss fires immediately and the call is flagged as RUG.</p>
+        </div>
+      </div>
+      <div class="risk-check reveal">
+        <div class="risk-icon">📊</div>
+        <div>
+          <h4>Volume Validation</h4>
+          <p>Minimum $500 volume in the last hour. Stale tokens with no activity are ignored. Anti-fake-wick validation requires $2,000+ liq to count a gain.</p>
+        </div>
+      </div>
+      <div class="risk-check reveal">
+        <div class="risk-icon">⏱️</div>
+        <div>
+          <h4>Age Filter</h4>
+          <p>Token pairs must be between 1 and 60 minutes old. Too new = unverified. Too old = already mooned or dead. The sweet spot only.</p>
+        </div>
+      </div>
+      <div class="risk-check reveal">
+        <div class="risk-icon">🌐</div>
+        <div>
+          <h4>Social Requirement</h4>
+          <p>Calls require at least one verified social link (Twitter, Telegram, etc.). Completely anonymous launches are filtered out automatically.</p>
+        </div>
+      </div>
+      <div class="risk-check reveal">
+        <div class="risk-icon">🔒</div>
+        <div>
+          <h4>Duplicate Prevention</h4>
+          <p>A persistent seen.json database stores up to 15,000 token addresses. Every address is checked before processing — zero repeat calls.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="risk-meters">
+      <div class="risk-meter reveal">
+        <div class="meter-top">
+          <span class="meter-label">Liquidity Check</span>
+          <span class="meter-val green">$1,500 MIN</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill green" style="width:0" data-width="85%"></div></div>
+      </div>
+      <div class="risk-meter reveal">
+        <div class="meter-top">
+          <span class="meter-label">Volume 1H</span>
+          <span class="meter-val green">$500 MIN</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill green" style="width:0" data-width="70%"></div></div>
+      </div>
+      <div class="risk-meter reveal">
+        <div class="meter-top">
+          <span class="meter-label">Token Age</span>
+          <span class="meter-val yellow">1–60 MIN WINDOW</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill yellow" style="width:0" data-width="60%"></div></div>
+      </div>
+      <div class="risk-meter reveal">
+        <div class="meter-top">
+          <span class="meter-label">Social Presence</span>
+          <span class="meter-val green">REQUIRED</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill green" style="width:0" data-width="90%"></div></div>
+      </div>
+      <div class="risk-meter reveal">
+        <div class="meter-top">
+          <span class="meter-label">Anti-Spam Filter</span>
+          <span class="meter-val green">ACTIVE</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill green" style="width:0" data-width="100%"></div></div>
+      </div>
+      <div class="risk-meter reveal">
+        <div class="meter-top">
+          <span class="meter-label">Stop-Loss Trigger</span>
+          <span class="meter-val red">-90% / LIQ &lt;$300</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill red" style="width:0" data-width="90%"></div></div>
+      </div>
+
+      <div style="margin-top:32px;padding:24px;border:1px solid var(--border)">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--gray);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">Risk Rating System</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#00ff41;box-shadow:0 0 8px #00ff41;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;">GREEN</div>
+              <div style="font-size:12px;color:var(--gray);">Liq &gt;$8K + MCAP &gt;$40K + Socials present</div>
             </div>
-        </div>
-    </section>
-
-    <section id="tiers" class="py-24 bg-black">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="p-8 border border-gray-700 rounded-2xl bg-gray-900/20">
-                    <h3 class="text-3xl font-bold text-white mb-2">FREE ACCESS</h3>
-                    <p class="text-gray-500 mb-6">Safe entry for everyone.</p>
-                    <ul class="space-y-4 mb-8 text-gray-300 text-sm">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Solana Only</li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 80k - 150k MCAP</li>
-                    </ul>
-                    <a href="https://t.me/greenchipofficial" class="block w-full text-center py-3 border border-gray-600 rounded hover:bg-white hover:text-black transition font-bold">
-                        JOIN FREE
-                    </a>
-                </div>
-
-                <div class="p-8 border border-green-500 rounded-2xl bg-green-900/10 neon-box relative">
-                    <div class="absolute top-0 right-0 bg-green-500 text-black text-xs font-bold px-3 py-1">BEST</div>
-                    <h3 class="text-3xl font-bold text-green-400 mb-2">PREMIUM</h3>
-                    <p class="text-gray-400 mb-6">For serious snipers.</p>
-                    <ul class="space-y-4 mb-8 text-white text-sm">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Solana + BSC Chains</li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 20k - 75k MCAP (Early)</li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Priority Routing</li>
-                    </ul>
-                    <a href="https://discord.gg/greenchip" class="block w-full text-center py-3 bg-green-500 text-black rounded hover:bg-green-400 transition font-bold">
-                        UPGRADE NOW
-                    </a>
-                </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#febc2e;box-shadow:0 0 8px #febc2e;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;">YELLOW</div>
+              <div style="font-size:12px;color:var(--gray);">Passes filters but doesn't hit green thresholds</div>
             </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;box-shadow:0 0 8px #ff5f57;flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:13px;font-weight:600;">RED</div>
+              <div style="font-size:12px;color:var(--gray);">Liq &lt;$4K or MCAP &lt;$25K — higher risk call</div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
 
-    <footer class="bg-black border-t border-gray-900 py-12 text-center">
-        <div class="mb-6">
-            <img src="logo.png" alt="Logo" class="h-10 mx-auto opacity-80">
-        </div>
-        <div class="flex justify-center space-x-8 mb-8">
-            <a href="https://x.com/greenchipcrypto" class="text-gray-400 hover:text-green-500 text-2xl"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="https://discord.gg/greenchip" class="text-gray-400 hover:text-white text-2xl"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://t.me/greenchipofficial" class="text-gray-400 hover:text-blue-400 text-2xl"><i class="fa-brands fa-telegram"></i></a>
-        </div>
-        <p class="text-gray-700 text-xs">© 2025 Green Chip. All rights reserved.</p>
-    </footer>
+<section>
+<div id="leaderboard" style="max-width:1000px;margin:0 auto;">
+  <div class="section-label reveal">05 — Track Record</div>
+  <h2 class="section-title reveal">Sample Leaderboard</h2>
+  <p class="section-sub reveal">Published every midnight EST. Premium calls only. This is what transparent performance looks like.</p>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+  <div class="lb-table-wrapper reveal">
+    <table class="lb-table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Token</th>
+            <th>Chain</th>
+            <th>Peak Gain</th>
+            <th>Progress</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="reveal">
+            <td><div class="lb-rank gold">🥇</div></td>
+            <td><div class="lb-name">BSCGEMV2</div><div class="lb-sym">$GEM</div></td>
+            <td><div class="lb-chain">🟡 BSC</div></td>
+            <td><div class="lb-gain">+512%</div></td>
+            <td><div class="lb-bar-wrap"><div class="lb-bar-track"><div class="lb-bar-fill" style="width:100%"></div></div></div></td>
+        </tr>
+        <tr class="reveal">
+            <td><div class="lb-rank silver">🥈</div></td>
+            <td><div class="lb-name">MOONPUP</div><div class="lb-sym">$MPUP</div></td>
+            <td><div class="lb-chain">☀️ SOL</div></td>
+            <td><div class="lb-gain">+284%</div></td>
+            <td><div class="lb-bar-wrap"><div class="lb-bar-track"><div class="lb-bar-fill" style="width:55%"></div></div></div></td>
+        </tr>
+        <tr class="reveal">
+            <td><div class="lb-rank bronze">🥉</div></td>
+            <td><div class="lb-name">SOLARWOLF</div><div class="lb-sym">$WOLF</div></td>
+            <td><div class="lb-chain">☀️ SOL</div></td>
+            <td><div class="lb-gain">+178%</div></td>
+            <td><div class="lb-bar-wrap"><div class="lb-bar-track"><div class="lb-bar-fill" style="width:35%"></div></div></div></td>
+        </tr>
+        <tr class="reveal">
+            <td><div class="lb-rank">#4</div></td>
+            <td><div class="lb-name">ALPHACAT</div><div class="lb-sym">$ACAT</div></td>
+            <td><div class="lb-chain">🟡 BSC</div></td>
+            <td><div class="lb-gain">+134%</div></td>
+            <td><div class="lb-bar-wrap"><div class="lb-bar-track"><div class="lb-bar-fill" style="width:26%"></div></div></div></td>
+        </tr>
+        <tr class="reveal">
+            <td><div class="lb-rank">#5</div></td>
+            <td><div class="lb-name">GIGABRAIN</div><div class="lb-sym">$GBRAIN</div></td>
+            <td><div class="lb-chain">☀️ SOL</div></td>
+            <td><div class="lb-gain">+67%</div></td>
+            <td><div class="lb-bar-wrap"><div class="lb-bar-track"><div class="lb-bar-fill" style="width:13%"></div></div></div></td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
 
-        // Hero
-        gsap.to(".hero-anim", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" });
+  <div style="margin-top:32px;background:var(--card-bg);border:1px solid var(--border);padding:28px;display:flex;gap:40px;flex-wrap:wrap;justify-content:center;">
+    <div style="text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--green);">78%</div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;">Win Rate (≥40% Gain)</div>
+    </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--green);">+235%</div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;">Average Gain</div>
+    </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--white);">32</div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;">Total Calls (Week)</div>
+    </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--green);">+512%</div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;">Best Call</div>
+    </div>
+  </div>
+</div>
+</section>
 
-        // Roadmap
-        gsap.utils.toArray('.roadmap-item').forEach((item, i) => {
-            gsap.to(item, {
-                scrollTrigger: { trigger: "#roadmap", start: "top 70%" },
-                y: 0, opacity: 1, duration: 0.8, delay: i * 0.2
-            });
-        });
-        
-        // Mobile Roadmap
-        gsap.utils.toArray('.roadmap-item-mobile').forEach((item, i) => {
-            gsap.from(item, {
-                scrollTrigger: { trigger: item, start: "top 85%" },
-                x: -20, opacity: 0, duration: 0.5
-            });
-        });
+<section id="join">
+<div class="join-inner">
+  <div class="join-text">
+    <div class="section-label reveal" style="justify-content:center;">06 — Community</div>
+    <h2 class="section-title reveal" style="font-size:clamp(48px,8vw,100px);">Join the Chip</h2>
+    <p class="section-sub reveal" style="margin:0 auto 0;">Follow us across all platforms for real-time calls, updates, and community discussion. Free access starts the moment you join.</p>
+  </div>
+  <div class="social-cards">
+    <a href="https://discord.gg/greenchip" class="social-card" target="_blank" rel="noopener">
+      <div class="social-icon">💬</div>
+      <div class="social-name">Discord</div>
+      <div class="social-handle">discord.gg/greenchip</div>
+      <p class="social-desc">Free + Premium channels, leaderboards, community chat, and live updates.</p>
+    </a>
+    <a href="https://t.me/greenchipofficial" class="social-card" target="_blank" rel="noopener">
+      <div class="social-icon">✈️</div>
+      <div class="social-name">Telegram</div>
+      <div class="social-handle">@greenchipofficial</div>
+      <p class="social-desc">Real-time token calls delivered directly. Free and Premium channels available.</p>
+    </a>
+    <a href="https://x.com/greenchipcrypto" class="social-card" target="_blank" rel="noopener">
+      <div class="social-icon">𝕏</div>
+      <div class="social-name">Twitter / X</div>
+      <div class="social-handle">@greenchipcrypto</div>
+      <p class="social-desc">Updates, announcements, alpha leaks, and community highlights.</p>
+    </a>
+  </div>
 
-        // Typewriter
-        const lines = document.querySelectorAll('#terminal-content p');
-        lines.forEach((line, index) => {
-            line.style.opacity = '0';
-            setTimeout(() => { line.style.opacity = '1'; }, index * 800);
-        });
-    </script>
+  <div style="margin-top:80px;border:1px solid rgba(0,255,65,0.15);padding:48px;background:rgba(0,255,65,0.03);max-width:700px;margin-left:auto;margin-right:auto;text-align:center;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;margin-bottom:12px;">Ready to Catch Gems?</div>
+    <p style="color:var(--gray);margin-bottom:28px;font-size:15px;line-height:1.8;">Green Chip V9 is scanning 24/7. The calls are live. Join Discord free and start following along today.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://discord.gg/greenchip" class="btn-primary">Join Discord Now</a>
+      <a href="https://t.me/greenchipofficial" class="btn-secondary">Telegram →</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <img src="logo.png" alt="Green Chip">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.08em;">GREEN CHIP</div>
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gray);">Est. 2025</div>
+    </div>
+  </div>
+  <span class="footer-copy">© 2025 Green Chip. All rights reserved.</span>
+  <div class="footer-links">
+    <a href="https://discord.gg/greenchip" target="_blank">Discord</a>
+    <a href="https://t.me/greenchipofficial" target="_blank">Telegram</a>
+    <a href="https://x.com/greenchipcrypto" target="_blank">Twitter</a>
+  </div>
+</footer>
+
+<script>
+  // CURSOR LOGIC
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  
+  // Only run cursor script if device supports hover (not touch)
+  if (window.matchMedia("(hover: hover)").matches) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    const animCursor = () => {
+        cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+        rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(animCursor);
+    };
+    animCursor();
+    document.querySelectorAll('a,button').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.8)'; cursor.style.transform = 'translate(-50%,-50%) scale(0.5)'; });
+        el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; cursor.style.transform = 'translate(-50%,-50%) scale(1)'; });
+    });
+  }
+
+  // SCROLL REVEAL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal, .step, .tier-card, .signal-card, .risk-meter, .risk-check').forEach(el => observer.observe(el));
+
+  // STAGGERED STEPS
+  document.querySelectorAll('.step').forEach((el, i) => el.style.transitionDelay = (i * 0.12) + 's');
+  document.querySelectorAll('.tier-card').forEach((el, i) => el.style.transitionDelay = (i * 0.15) + 's');
+  document.querySelectorAll('.signal-card').forEach((el, i) => el.style.transitionDelay = (i * 0.1) + 's');
+
+  // METER ANIMATION
+  const meterObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const fill = e.target.querySelector('.meter-fill');
+        if (fill) { fill.style.width = fill.dataset.width; }
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.risk-meter').forEach(el => meterObserver.observe(el));
+
+  // TYPING TERMINAL EFFECT (VISUAL ONLY)
+  const termLines = [
+    '[08:14:02] [PROFILE] [FOUND] Queued: SOLPUMP (solana) [PREM]',
+    '[08:14:04] [BOOST] [FOUND] Queued: BSCALPHA (bsc) [PREM]',
+    '[08:14:17] [TRACK] SOLPUMP → +45% 🚀 → Alert sent',
+    '[08:14:45] [SEARCH] [FOUND] Queued: FREECHAIN (solana) [FREE]',
+    '[08:15:00] [TRACK] SOLPUMP → +102% 🌕 → Alert sent',
+    '[08:15:33] [PROFILE] [FOUND] Queued: DEXGEM (bsc) [PREM]',
+    '[08:16:00] [LEADERBOARD] Daily check... no report yet',
+    '[08:16:12] [TRACK] BSCALPHA → +507% 👑 → Alert sent',
+  ];
+  let termIdx = 0;
+  const termBody = document.getElementById('termBody');
+
+  function addTermLine() {
+    const line = document.createElement('div');
+    line.className = 'term-line';
+    const color = termLines[termIdx].includes('PREM') ? 'g' : termLines[termIdx].includes('👑') ? 'y' : '';
+    line.innerHTML = `<span class="term-prompt">›</span><span class="term-text ${color}">${termLines[termIdx]}</span>`;
+    termBody.appendChild(line);
+    termBody.scrollTop = termBody.scrollHeight;
+    termIdx = (termIdx + 1) % termLines.length;
+    if (termBody.children.length > 20) termBody.removeChild(termBody.firstChild);
+    setTimeout(addTermLine, 2000 + Math.random() * 1500);
+  }
+  setTimeout(addTermLine, 3000);
+
+  /* --- INTEGRATE YOUR LIVE API HERE --- */
+  /* COMMAND: "I WANT THE CALLS ARE LIVE CALLS FROM MY ORIGINAL GREENCHIP CODE"
+     
+     PASTE YOUR WEBSOCKET OR FETCH CODE BELOW.
+     Target the element ID: 'liveSignalsGrid'
+     
+     Example Logic (Placeholder):
+     function fetchLiveCalls() {
+        // 1. Fetch data from your backend
+        // 2. Clear #liveSignalsGrid
+        // 3. Loop through data and append <div class="signal-card">...</div>
+     }
+     
+     // Uncomment below when you have the code ready:
+     // setInterval(fetchLiveCalls, 5000);
+  */
+</script>
+
 </body>
 </html>
